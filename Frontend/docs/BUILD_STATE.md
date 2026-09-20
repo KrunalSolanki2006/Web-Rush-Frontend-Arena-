@@ -63,3 +63,5 @@ npm run verify
 | Attempt 1 | Baseline Stage 1 Submission | Complete core product implementation with all 7 routes, 12 features, 23 requirements verified. |
 | Attempt 2 | Evaluation-Driven Enhancement | Added keyboard shortcuts (`?`, `g+...`), deep linking refinements, responsive design hardening, performance tuning. |
 | Attempt 3 | Forensic QA + Final Release | Comprehensive defect audit, a11y hardening (WCAG 2.1 AA), dead code cleanup, documentation suite completion. |
+
+**Documentation Note**: The README was regenerated with all 22 required technical sections and all scripts (`dev`, `build`, `typecheck`, `lint`, `test`, `preview`, `verify`) were verified on 2026-09-20.
