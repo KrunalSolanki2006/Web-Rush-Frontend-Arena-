@@ -12,16 +12,27 @@
       "months": 9
     },
     "receipt_types": [
-      { "type": "music", "count": 7 },
-      { "type": "movie", "count": 6 },
+      { "type": "photo", "count": 9 },
       { "type": "place", "count": 8 },
-      { "type": "purchase", "count": 7 },
-      { "type": "photo", "count": 8 },
-      { "type": "message", "count": 6 },
+      { "type": "event", "count": 8 },
       { "type": "search", "count": 7 },
-      { "type": "event", "count": 4 },
-      { "type": "note", "count": 2 }
+      { "type": "music", "count": 6 },
+      { "type": "purchase", "count": 6 },
+      { "type": "note", "count": 6 },
+      { "type": "movie", "count": 3 },
+      { "type": "message", "count": 2 }
     ],
+    "receipts_per_month": {
+      "January": 7,
+      "February": 6,
+      "March": 11,
+      "April": 4,
+      "May": 5,
+      "June": 7,
+      "July": 4,
+      "August": 5,
+      "September": 6
+    },
     "connections": {
       "confirmed": 29,
       "inferred": 14,
@@ -29,6 +40,7 @@
     },
     "places": {
       "count": 8,
+      "receipt_ids": ["R002", "R009", "R017", "R023", "R031", "R037", "R043", "R048"],
       "cities": ["Mumbai", "Lonavala", "Udaipur"]
     },
     "purchases": {
@@ -43,11 +55,11 @@
   },
   "features": [
     "Story Mode — 9 monthly chapters with persona stamps and moment chains",
-    "Threads Board — interactive SVG relationship graph with 43 edges",
-    "Life Map — SVG equirectangular projection with 8 geolocated places",
-    "Patterns — 5 computed insight blocks (theme matrix, morning shift, intent lags, spending tape, inner voice)",
-    "Archive — real-time multi-facet search and filter across all 55 receipts",
-    "Receipt Drawer — global deep-link overlay via ?r=RXXX URL scheme",
+    "Threads Board — interactive SVG relationship graph with 43 edges across 9 type lanes",
+    "Life Map — SVG equirectangular projection with 8 geolocated places (Mumbai, Lonavala, Udaipur)",
+    "Patterns — 5 computed insight blocks (theme recurrence matrix, morning shift circadian, intent-to-action lags, spending ledger, inner voice arc)",
+    "Archive — real-time multi-facet search and filter across all 55 receipts with slips and table views",
+    "Receipt Drawer — global deep-link overlay via ?r=RXXX URL scheme with prev/next navigation",
     "Causal Intelligence — Trigger/Catalyst/Turning Point/Reflection/Anchor classification",
     "Keyboard Navigation — ? help modal + g+h/s/t/m/p/a/x shortcuts"
   ],
@@ -58,24 +70,27 @@
     "styling": "Tailwind CSS v4",
     "icons": "Lucide React",
     "animation": "motion/react",
-    "architecture": "Feature-Slice Design with Service-Repository pattern",
-    "entry_chunk_kb": 12.85,
+    "architecture": "Feature-Slice Design with Service-Repository-API pattern",
+    "layers": ["api", "app", "components", "features", "hooks", "lib", "services", "store", "utils"],
+    "entry_chunk_kb": 12.84,
     "entry_chunk_gzip_kb": 4.34,
     "total_js_kb": 333.6,
     "total_js_gzip_kb": 108.5,
-    "css_kb": 49.49,
-    "css_gzip_kb": 8.87,
+    "css_kb": 50.31,
+    "css_gzip_kb": 8.97,
     "test_count": 38,
     "test_suites": 7,
-    "accessibility": "WCAG 2.1 AA"
+    "accessibility": "WCAG 2.1 AA",
+    "backend_servers": 0,
+    "tracking": "none"
   },
   "routes": [
-    { "path": "/", "name": "Home", "description": "Cover receipt, animated stats, interactive card stack" },
-    { "path": "/story", "name": "Story Mode", "description": "9 monthly chapters, sticky nav rail, moment chains" },
-    { "path": "/threads", "name": "Threads & Connections", "description": "SVG relationship board with 9 type lanes" },
-    { "path": "/map", "name": "Life Map", "description": "SVG equirectangular projection of 8 geolocated places" },
-    { "path": "/patterns", "name": "Patterns & Discoveries", "description": "5 computed behavioral insight blocks" },
-    { "path": "/archive", "name": "The Archive", "description": "Multi-facet search and filter across all 55 receipts" },
-    { "path": "/method", "name": "Method", "description": "Dataset provenance, confirmed vs inferred logic, limitations" }
+    { "path": "/", "name": "Home", "description": "Cover receipt slip, animated dataset stats, interactive card stack, feature grid, dataset provenance" },
+    { "path": "/story", "name": "Story Mode", "description": "9 monthly chapters with sticky nav rail, persona stamps, evidence chips, and moment chains" },
+    { "path": "/threads", "name": "Threads & Connections", "description": "SVG relationship board with 9 type lanes, 43 edges (29 confirmed + 14 inferred)" },
+    { "path": "/map", "name": "Life Map", "description": "SVG equirectangular projection of 8 geolocated places: India and Mumbai close-up views" },
+    { "path": "/patterns", "name": "Patterns & Discoveries", "description": "5 computed behavioral insight blocks from 55 receipts" },
+    { "path": "/archive", "name": "The Archive", "description": "Multi-facet search (text, type, month, theme, city, connected-only) across all 55 receipts" },
+    { "path": "/method", "name": "Method & Provenance", "description": "Dataset transparency: confirmed vs inferred logic, data traps handled, known limitations" }
   ]
 }

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getDataset } from '../../lib/dataset';
 import { getMomentReceiptIds } from '../../lib/graph';
@@ -41,20 +41,23 @@ export function useThreadState() {
     );
   }, [dataset, selectedReceiptIds, showInferred, minStrength]);
 
-  const setFocus = (receiptId: string | null) => {
-    setSearchParams(
-      prev => {
-        const next = new URLSearchParams(prev);
-        if (receiptId) {
-          next.set('focus', receiptId);
-        } else {
-          next.delete('focus');
-        }
-        return next;
-      },
-      { replace: true }
-    );
-  };
+  const setFocus = useCallback(
+    (receiptId: string | null) => {
+      setSearchParams(
+        prev => {
+          const next = new URLSearchParams(prev);
+          if (receiptId) {
+            next.set('focus', receiptId);
+          } else {
+            next.delete('focus');
+          }
+          return next;
+        },
+        { replace: true }
+      );
+    },
+    [setSearchParams]
+  );
 
   // Keyboard shortcut Esc to clear selection
   useEffect(() => {
@@ -66,7 +69,7 @@ export function useThreadState() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  });
+  }, [setFocus]);
 
   return {
     dataset,

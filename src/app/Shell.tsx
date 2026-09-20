@@ -4,10 +4,8 @@ import { Nav } from './Nav';
 import { Barcode } from '../components/ui/Barcode';
 import { Keyboard } from 'lucide-react';
 
-// Lazy load non-critical overlay components to keep initial JS bundle ultra-light
-const ReceiptDrawer = lazy(() =>
-  import('../features/receipts/ReceiptDrawer').then(m => ({ default: m.ReceiptDrawer }))
-);
+import { ReceiptDrawer } from '../features/receipts/ReceiptDrawer';
+
 const KeyboardHelpModal = lazy(() =>
   import('../components/ui/KeyboardHelpModal').then(m => ({ default: m.KeyboardHelpModal }))
 );

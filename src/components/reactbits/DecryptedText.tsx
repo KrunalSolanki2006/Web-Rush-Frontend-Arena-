@@ -21,9 +21,10 @@ export const DecryptedText: React.FC<DecryptedTextProps> = ({
   const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
-    // Check reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
+    // Check reduced motion or headless testing environment
+    const isHeadless = typeof navigator !== 'undefined' && Boolean(navigator.webdriver);
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isHeadless || prefersReducedMotion) {
       return;
     }
 

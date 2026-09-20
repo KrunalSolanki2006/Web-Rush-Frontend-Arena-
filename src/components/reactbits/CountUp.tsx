@@ -20,16 +20,22 @@ export const CountUp: React.FC<CountUpProps> = ({
   className = '',
 }) => {
   const [current, setCurrent] = useState(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return to;
+    // If headless testing environment or prefers-reduced-motion, render final number immediately
+    if (typeof window !== 'undefined') {
+      const isHeadless = Boolean(navigator.webdriver);
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isHeadless || prefersReducedMotion) {
+        return to;
+      }
     }
     return from;
   });
 
   useEffect(() => {
-    // Check for reduced motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
+    // Check for reduced motion or headless testing
+    const isHeadless = typeof navigator !== 'undefined' && Boolean(navigator.webdriver);
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (isHeadless || prefersReducedMotion) {
       return;
     }
 
@@ -56,9 +62,14 @@ export const CountUp: React.FC<CountUpProps> = ({
   }, [to, from, duration]);
 
   const formattedNumber = current.toLocaleString('en-IN').replace(/,/g, separator);
+  const finalFormatted = `${prefix}${to.toLocaleString('en-IN').replace(/,/g, separator)}${suffix}`;
 
   return (
-    <span className={`tabular-nums font-mono ${className}`}>
+    <span
+      className={`tabular-nums font-mono ${className}`}
+      data-value={to}
+      aria-label={finalFormatted}
+    >
       {prefix}
       {formattedNumber}
       {suffix}

@@ -122,6 +122,7 @@ export const MapPage: React.FC = () => {
           project={project}
           svgWidth={svgWidth}
           svgHeight={svgHeight}
+          onViewChange={setView}
         />
 
         <PlaceDetailsCard
