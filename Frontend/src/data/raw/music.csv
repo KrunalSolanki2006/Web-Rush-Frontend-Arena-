@@ -1,7 +1,0 @@
-music_id,receipt_id,track,artist,album,played_at,duration_min,genre,tags
-M001,R001,Midnight City,M83,Neon Atlas,2025-01-04 21:10,4.03,indie_electronic,"night,city"
-M002,R008,Sunset Lover,Petit Biscuit,We Were Young,2025-02-02 20:00,3.58,chill,"sunset,sea"
-M003,R019,Kasoor,Prateek Kuhad,cold/mess,2025-03-15 21:00,3.45,indie,"udaipur,reflection"
-M004,R025,Holocene,Bon Iver,Bon Iver,2025-04-06 23:05,5.36,indie,"reflection,night"
-M005,R033,Bloom,The Paper Kites,Twelvefour,2025-05-10 07:20,3.56,indie,"morning,nature"
-M006,R050,Space Song,Beach House,Depression Cherry,2025-09-03 00:05,5.2,dream_pop,"late_night,reflection"

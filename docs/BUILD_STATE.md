@@ -65,3 +65,9 @@ npm run verify
 | Attempt 3 | Forensic QA + Final Release | Comprehensive defect audit, a11y hardening (WCAG 2.1 AA), dead code cleanup, documentation suite completion. |
 
 **Documentation Note**: The README was regenerated with all 22 required technical sections and all scripts (`dev`, `build`, `typecheck`, `lint`, `test`, `preview`, `verify`) were verified on 2026-09-20.
+
+## 7. Repository Cleanup & Submission Packaging (2026-09-20)
+- **Repository Flattening**: Moved the application from nested `Frontend/` directly to root (`package.json`, `src/`, `public/`, `docs/`, `README.md`) for seamless automated CI/CD and evaluation.
+- **Deduplication & Hygiene**: Removed duplicate root CSVs and deleted unused template assets (`hero.png`, `react.svg`, `vite.svg`, `icons.svg`).
+- **Git Configuration**: Rewrote root `.gitignore` to comprehensively cover `node_modules/`, `dist/`, `.env*`, `logs/`, `coverage/`, OS files, and IDE folders.
+- **Verification from Scratch**: Ran `npm ci`, `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build`, and `npm run preview`. All 25 tests pass, zero TypeScript errors, and all routes load cleanly.

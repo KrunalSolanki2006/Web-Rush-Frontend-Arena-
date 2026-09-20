@@ -21,16 +21,13 @@ Itemized is built as a pure client-side single page application using React 19, 
 
 ### Build Steps
 ```bash
-# Navigate to Frontend directory
-cd Frontend
-
 # Install production and dev dependencies
-npm install
+npm ci
 
 # Run strict verification (TypeScript typecheck + Vitest suite + Vite production build)
 npm run verify
 
-# Output files will be generated in Frontend/dist/
+# Output files will be generated in dist/
 ```
 
 ---
@@ -38,7 +35,7 @@ npm run verify
 ## 3. Platform Configurations
 
 ### Vercel Deployment
-The repository includes `vercel.json` in `Frontend/vercel.json`:
+The repository includes `vercel.json` at the root:
 ```json
 {
   "rewrites": [
@@ -50,7 +47,7 @@ The repository includes `vercel.json` in `Frontend/vercel.json`:
 }
 ```
 - **Framework Preset**: Vite
-- **Root Directory**: `Frontend`
+- **Root Directory**: `./`
 - **Build Command**: `npm run build`
 - **Output Directory**: `dist`
 
