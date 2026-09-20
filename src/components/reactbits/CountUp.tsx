@@ -19,13 +19,17 @@ export const CountUp: React.FC<CountUpProps> = ({
   suffix = '',
   className = '',
 }) => {
-  const [current, setCurrent] = useState(from);
+  const [current, setCurrent] = useState(() => {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return to;
+    }
+    return from;
+  });
 
   useEffect(() => {
     // Check for reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      setCurrent(to);
       return;
     }
 

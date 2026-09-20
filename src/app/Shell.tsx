@@ -1,11 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Suspense, lazy } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Nav } from './Nav';
-import { ReceiptDrawer } from '../features/receipts/ReceiptDrawer';
-import { KeyboardHelpModal } from '../components/ui/KeyboardHelpModal';
 import { Barcode } from '../components/ui/Barcode';
 import { Keyboard } from 'lucide-react';
+
+// Lazy load non-critical overlay components to keep initial JS bundle ultra-light
+const ReceiptDrawer = lazy(() =>
+  import('../features/receipts/ReceiptDrawer').then(m => ({ default: m.ReceiptDrawer }))
+);
+const KeyboardHelpModal = lazy(() =>
+  import('../components/ui/KeyboardHelpModal').then(m => ({ default: m.KeyboardHelpModal }))
+);
 
 interface ShellProps {
   children: React.ReactNode;
@@ -14,14 +19,12 @@ interface ShellProps {
 export const Shell: React.FC<ShellProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [routeAnnouncement, setRouteAnnouncement] = useState('');
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const pendingGKeyRef = useRef<boolean>(false);
   const gTimeoutRef = useRef<number | null>(null);
 
-  // Manage document title, focus, and screen-reader announcements on route change
-  useEffect(() => {
-    const routeTitles: Record<string, string> = {
+  const currentTitle =
+    {
       '/': 'Itemized — Your Life, In Receipts',
       '/story': 'Story — Itemized',
       '/threads': 'Threads — Itemized',
@@ -29,11 +32,11 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
       '/patterns': 'Patterns — Itemized',
       '/archive': 'Archive — Itemized',
       '/method': 'Method — Itemized',
-    };
+    }[location.pathname] || 'Itemized — Your Life, In Receipts';
 
-    const newTitle = routeTitles[location.pathname] || 'Itemized — Your Life, In Receipts';
-    document.title = newTitle;
-    setRouteAnnouncement(`Navigated to ${newTitle}`);
+  // Manage document title and focus on route change
+  useEffect(() => {
+    document.title = currentTitle;
 
     // Move focus to main h1 if present for screen reader accessibility
     const h1 = document.querySelector('h1');
@@ -41,7 +44,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
       h1.setAttribute('tabindex', '-1');
       h1.focus();
     }
-  }, [location.pathname]);
+  }, [currentTitle]);
 
   // Global Keyboard Shortcuts (Modal on '?', Navigation sequences 'g' -> 'h'/'s'/'t'/'m'/'p'/'a'/'x')
   useEffect(() => {
@@ -116,7 +119,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
 
       {/* Screen Reader Live Announcement */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {routeAnnouncement}
+        Navigated to {currentTitle}
       </div>
 
       {/* Header & Nav */}
@@ -124,23 +127,18 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
         <Nav />
       </header>
 
-      {/* Main Content Area */}
+      {/* Main Content Area with CSS Hardware-Accelerated Route Transition */}
       <main id="main" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 focus:outline-none" tabIndex={-1}>
-        <motion.div
-          key={location.pathname}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25, ease: 'easeOut' }}
-        >
+        <div key={location.pathname} className="route-transition">
           {children}
-        </motion.div>
+        </div>
       </main>
 
-      {/* Global Receipt Drawer */}
-      <ReceiptDrawer />
-
-      {/* Keyboard Shortcuts Help Modal */}
-      <KeyboardHelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      {/* Lazy Overlays wrapped in Suspense */}
+      <Suspense fallback={null}>
+        <ReceiptDrawer />
+        {isHelpOpen && <KeyboardHelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />}
+      </Suspense>
 
       {/* Footer */}
       <footer className="bg-slip border-t border-rule mt-auto py-8 text-center text-xs font-mono text-ink-soft relative perforated-edge-paper no-print">
@@ -154,7 +152,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
               <strong>Itemized</strong> — Fictional demo dataset for WebRush 2025. 9 months, 55 receipts, 1 story.
             </p>
             <p className="text-[11px] text-ink-soft/70">
-              Frontend-only architecture: React, TypeScript, Vite, Tailwind CSS v4, Motion, Lucide. Zero backend, zero tracking.
+              Frontend-only architecture: React, TypeScript, Vite, Tailwind CSS v4, Lucide. Zero backend, zero tracking.
             </p>
           </div>
 
@@ -174,4 +172,3 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
     </div>
   );
 };
-

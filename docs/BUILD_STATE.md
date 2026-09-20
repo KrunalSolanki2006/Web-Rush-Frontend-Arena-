@@ -37,11 +37,11 @@
 ```
 npm run verify
   ├── npm run typecheck: 0 errors (tsc -b)
-  ├── npm run test: 6 test files, 25 tests passed (100% pass)
-  └── npm run build: built in 1.09s
-      ├── dist/assets/index.css (61.61 kB | gzip 10.00 kB)
-      ├── dist/assets/index.js (451.44 kB | gzip 143.03 kB)
-      └── Code-split route chunks: HomePage, StoryPage, ThreadsPage, MapPage, PatternsPage, ArchivePage, MethodPage, NotFound
+  ├── npm run test: 7 test files, 38 tests passed (100% pass)
+  └── npm run build: built in 1.54s
+      ├── dist/assets/index.css (49.46 kB | gzip 8.87 kB)
+      ├── dist/assets/index-*.js (12.85 kB | gzip 4.34 kB)
+      └── Code-split route & vendor chunks: vendor-react, vendor-motion, domain-services, HomePage, StoryPage, ThreadsPage, MapPage, PatternsPage, ArchivePage, MethodPage, ReceiptDrawer, ReceiptSlip, Stack
 ```
 
 ## 4. Stage 3 Forensic QA Resolutions
@@ -71,3 +71,33 @@ npm run verify
 - **Deduplication & Hygiene**: Removed duplicate root CSVs and deleted unused template assets (`hero.png`, `react.svg`, `vite.svg`, `icons.svg`).
 - **Git Configuration**: Rewrote root `.gitignore` to comprehensively cover `node_modules/`, `dist/`, `.env*`, `logs/`, `coverage/`, OS files, and IDE folders.
 - **Verification from Scratch**: Ran `npm ci`, `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build`, and `npm run preview`. All 25 tests pass, zero TypeScript errors, and all routes load cleanly.
+
+## 8. Final End-to-End Performance & Architecture Optimization (2026-09-20)
+- **Architecture Refactoring (P0)**:
+  - Created formal service layer (`src/services/`): `ReceiptRepository`, `RelationshipResolver`, `InsightService`, `ArchiveFilterService`.
+  - Introduced `useDataset` hook for ergonomic, decoupled data consumption across pages.
+  - Extracted business logic from `ArchivePage` (filtering/sorting), `PatternsPage` (theme matrix recurrence), and `ReceiptDrawer`.
+  - Expanded test coverage from 25 to 38 unit tests across 7 test suites (100% pass).
+- **Bundle & Critical Path Optimization (P0)**:
+  - **Entry Chunk Size**: Reduced from **451.44 kB (143.04 kB gzip)** to **12.85 kB (4.34 kB gzip)** — a **~97% reduction**!
+  - **Total Initial JS Requested**: Reduced from **466.00 kB** to **333.60 kB** — a **28.4% reduction** in critical-path script weight.
+  - **Total Initial JS Transferred**: Reduced from **151.64 kB** to **108.50 kB gzip** — a **28.5% reduction** in transferred network payload.
+  - Deferrals:
+    - Removed `motion/react` from `Router.tsx`, `Shell.tsx`, `HomePage.tsx`, and `KeyboardHelpModal.tsx`, preventing `vendor-motion` (131 kB / 42.7 kB gzip) from blocking the initial page render.
+    - Configured `modulePreload.resolveDependencies` in `vite.config.ts` to exclude deferred chunks from initial HTML `<link rel="modulepreload">`.
+    - Below-the-fold `Stack` component on `HomePage` is dynamically imported (`React.lazy`), deferring `ReceiptSlip` (13.98 kB).
+    - Optimized font loading in `src/index.css` to Latin-only subsets, reducing font assets from 42 to 18 files and trimming CSS from 61.81 kB to 49.46 kB.
+- **Problem Alignment & Causal Intelligence (P1/P2)**:
+  - Implemented "Why This Moment Matters" causal role classification (`Trigger`, `Catalyst`, `Turning Point`, `Reflection`, `Anchor`) surfaced in `ReceiptDrawer` and `ThreadTrail`.
+  - Added "Connected Only" quick filter and connection count indicators to the Archive ledger.
+- **Accessibility & DevTools Form Control Hardening**:
+  - Resolved Chrome DevTools warning ("A form field element should have an id or name attribute"):
+    - Added `id="archive-search-input"` and `name="search"` to search input in `ArchiveFilters.tsx`.
+    - Added `id="archive-sort-select"` and `name="sort"` to sort select in `ArchiveFilters.tsx`.
+    - Added `name="month"`, `name="theme"`, and `name="city"` to filter dropdowns in `ArchiveFilters.tsx`.
+    - Added `name="minStrength"` to range slider and `name="focusMoment"` to chain select in `ThreadsPage.tsx`.
+- **Verification Summary**:
+  - `npm run typecheck`: 0 errors
+  - `npm test`: 38/38 tests passing across 7 test suites (100%)
+  - `npm run build`: built in 1.54s with all assets split and optimized.
+

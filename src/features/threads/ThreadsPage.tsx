@@ -45,6 +45,7 @@ export const ThreadsPage: React.FC = () => {
           {/* Show Inferred Toggle */}
           <button
             onClick={() => setShowInferred(prev => !prev)}
+            data-testid="toggle-inferred"
             className={`cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xs border transition-colors ${
               showInferred
                 ? 'bg-ink text-paper border-ink font-bold'
@@ -63,6 +64,8 @@ export const ThreadsPage: React.FC = () => {
             </label>
             <input
               id="strength-slider"
+              name="minStrength"
+              data-testid="strength-slider"
               type="range"
               min="0.80"
               max="0.99"
@@ -83,6 +86,8 @@ export const ThreadsPage: React.FC = () => {
             </label>
             <select
               id="focus-picker"
+              name="focusMoment"
+              data-testid="focus-picker"
               value={focusReceiptId || ''}
               onChange={e => setFocus(e.target.value || null)}
               className="cursor-pointer bg-paper border border-rule rounded-xs py-1 px-2 text-xs font-mono text-ink"
@@ -117,6 +122,7 @@ export const ThreadsPage: React.FC = () => {
           {focusReceiptId && (
             <button
               onClick={() => setFocus(null)}
+              data-testid="clear-focus-btn"
               className="cursor-pointer inline-flex items-center gap-1 text-stamp-red font-bold hover:underline"
               title="Clear selection (Esc)"
             >

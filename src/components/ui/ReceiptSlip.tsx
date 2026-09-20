@@ -202,6 +202,8 @@ export const ReceiptSlip: React.FC<ReceiptSlipProps> = ({
   return (
     <article
       onClick={onClick}
+      data-testid={`receipt-slip-${receipt.receipt_id}`}
+      data-receipt-id={receipt.receipt_id}
       className={`relative bg-slip border border-rule rounded-sm transition-all text-ink ${
         isInline
           ? 'p-3 text-xs min-w-[200px] max-w-[240px]'
@@ -232,7 +234,22 @@ export const ReceiptSlip: React.FC<ReceiptSlipProps> = ({
             isInline ? 'text-sm line-clamp-1' : isFull ? 'text-xl md:text-2xl' : 'text-base line-clamp-2'
           }`}
         >
-          {receipt.title}
+          {onClick && !isFull ? (
+            <button
+              type="button"
+              onClick={e => {
+                e.stopPropagation();
+                onClick();
+              }}
+              className="text-left font-display font-bold text-ink leading-tight hover:underline cursor-pointer focus-visible:ring-2 focus-visible:ring-ink rounded-xs w-full"
+              aria-label={`View receipt #${receipt.receipt_id}: ${receipt.title}`}
+              data-testid={`receipt-title-${receipt.receipt_id}`}
+            >
+              {receipt.title}
+            </button>
+          ) : (
+            receipt.title
+          )}
         </h3>
 
         {receipt.context && receipt.context !== receipt.title && (
@@ -280,6 +297,7 @@ export const ReceiptSlip: React.FC<ReceiptSlipProps> = ({
               e.stopPropagation();
               onPullThread(receipt.receipt_id);
             }}
+            data-testid={`receipt-pull-thread-${receipt.receipt_id}`}
             className="cursor-pointer inline-flex items-center gap-1 font-mono text-[10px] uppercase font-bold text-stamp-red hover:underline ml-2"
             title="Trace related receipts in Threads"
           >

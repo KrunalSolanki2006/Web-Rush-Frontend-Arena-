@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { MotionConfig } from 'motion/react';
 import { Shell } from './Shell';
 import { ErrorBoundary } from './ErrorBoundary';
 import { Printer } from 'lucide-react';
@@ -27,25 +26,23 @@ const RouteFallback: React.FC = () => (
 
 export const AppRouter: React.FC = () => {
   return (
-    <MotionConfig reducedMotion="user">
-      <ErrorBoundary>
-        <BrowserRouter>
-          <Shell>
-            <Suspense fallback={<RouteFallback />}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/story" element={<StoryPage />} />
-                <Route path="/threads" element={<ThreadsPage />} />
-                <Route path="/map" element={<MapPage />} />
-                <Route path="/patterns" element={<PatternsPage />} />
-                <Route path="/archive" element={<ArchivePage />} />
-                <Route path="/method" element={<MethodPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </Shell>
-        </BrowserRouter>
-      </ErrorBoundary>
-    </MotionConfig>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Shell>
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/story" element={<StoryPage />} />
+              <Route path="/threads" element={<ThreadsPage />} />
+              <Route path="/map" element={<MapPage />} />
+              <Route path="/patterns" element={<PatternsPage />} />
+              <Route path="/archive" element={<ArchivePage />} />
+              <Route path="/method" element={<MethodPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </Shell>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 };

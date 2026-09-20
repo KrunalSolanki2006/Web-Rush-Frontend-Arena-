@@ -24,7 +24,6 @@ export const DecryptedText: React.FC<DecryptedTextProps> = ({
     // Check reduced motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
-      setDisplayText(text);
       return;
     }
 

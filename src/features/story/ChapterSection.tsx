@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 import type { Chapter } from '../../types';
 import { Stamp } from '../../components/ui/Stamp';
 import { Chip } from '../../components/ui/Chip';
@@ -18,12 +17,9 @@ export const ChapterSection: React.FC<ChapterSectionProps> = ({
   onPullThread,
 }) => {
   return (
-    <motion.section
+    <section
       id={`chapter-${chapter.month}`}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
+      data-testid={`chapter-section-${chapter.month}`}
       className="scroll-mt-24 bg-slip border border-rule rounded-sm p-6 md:p-8 shadow-xs space-y-6"
     >
       {/* Chapter Header */}
@@ -61,6 +57,8 @@ export const ChapterSection: React.FC<ChapterSectionProps> = ({
               label={`#${r.receipt_id} ${r.title}`}
               size="sm"
               onClick={() => onSelectReceipt(r.receipt_id)}
+              dataTestId={`evidence-chip-${r.receipt_id}`}
+              className="hover:border-ink cursor-pointer"
             />
           ))}
         </div>
@@ -113,6 +111,6 @@ export const ChapterSection: React.FC<ChapterSectionProps> = ({
           </span>
         </div>
       )}
-    </motion.section>
+    </section>
   );
 };

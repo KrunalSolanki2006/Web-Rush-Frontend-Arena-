@@ -18,9 +18,11 @@ export const Nav: React.FC = () => {
   const mobilePanelRef = useRef<HTMLDivElement>(null);
 
   // Close mobile menu on route change
-  useEffect(() => {
+  const [prevPath, setPrevPath] = useState(location.pathname);
+  if (prevPath !== location.pathname) {
+    setPrevPath(location.pathname);
     setMobileMenuOpen(false);
-  }, [location.pathname]);
+  }
 
   // Handle Escape key for mobile menu
   useEffect(() => {

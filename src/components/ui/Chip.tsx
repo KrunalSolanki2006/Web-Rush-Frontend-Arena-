@@ -7,6 +7,7 @@ interface ChipProps {
   count?: number;
   className?: string;
   size?: 'sm' | 'md';
+  dataTestId?: string;
 }
 
 export const Chip: React.FC<ChipProps> = ({
@@ -16,6 +17,7 @@ export const Chip: React.FC<ChipProps> = ({
   count,
   className = '',
   size = 'md',
+  dataTestId,
 }) => {
   // Humanize underscore tokens: "new_start" -> "New Start"
   const humanized = label
@@ -31,6 +33,7 @@ export const Chip: React.FC<ChipProps> = ({
   return (
     <Component
       onClick={onClick}
+      data-testid={dataTestId}
       className={`inline-flex items-center gap-1.5 font-mono tracking-wide rounded-sm transition-all border ${
         isSmall ? 'text-[11px] px-2 py-0.5' : 'text-xs px-2.5 py-1'
       } ${

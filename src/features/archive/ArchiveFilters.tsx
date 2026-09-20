@@ -2,7 +2,7 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { ReceiptType } from '../../types';
 import { RECEIPT_TYPE_META } from '../receipts/receiptTypeMeta';
-import { Search, X, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { Search, X, SlidersHorizontal, ArrowUpDown, GitFork } from 'lucide-react';
 
 const ALL_TYPES: ReceiptType[] = [
   'music',
@@ -49,6 +49,7 @@ export const ArchiveFilters: React.FC = () => {
   const selectedTheme = searchParams.get('theme') || '';
   const selectedCity = searchParams.get('city') || '';
   const selectedSort = searchParams.get('sort') || 'oldest';
+  const connectedOnly = searchParams.get('connected') === 'true';
 
   const updateParam = (key: string, value: string | null) => {
     setSearchParams(
@@ -78,42 +79,72 @@ export const ArchiveFilters: React.FC = () => {
   };
 
   const hasActiveFilters = Boolean(
-    query || selectedType || selectedMonth || selectedTheme || selectedCity || selectedSort !== 'oldest'
+    query || selectedType || selectedMonth || selectedTheme || selectedCity || connectedOnly || selectedSort !== 'oldest'
   );
 
   return (
     <div className="bg-slip border border-rule p-4 md:p-5 rounded-sm shadow-xs space-y-4">
-      {/* Top row: Search input & sort dropdown */}
+      {/* Top row: Search input & sort dropdown & connected-only toggle */}
       <div className="flex flex-col md:flex-row gap-3">
-        <div className="relative flex-1">
+        {/* Search Input wrapped in semantic search form */}
+        <form
+          role="search"
+          onSubmit={e => e.preventDefault()}
+          className="relative flex-1 min-w-[260px]"
+          data-testid="archive-search-form"
+        >
           <Search
             size={16}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-soft pointer-events-none"
             aria-hidden="true"
           />
           <input
+            id="archive-search-input"
+            name="search"
             type="text"
             value={query}
             onChange={e => updateParam('q', e.target.value || null)}
             placeholder="Search receipts by title, text, location, or tags..."
             className="w-full pl-9 pr-8 py-2 bg-paper border border-rule rounded-xs font-sans text-sm text-ink placeholder:text-ink-soft/60 focus:border-ink focus:ring-1 focus:ring-ink"
             aria-label="Search receipts"
+            data-testid="archive-search-input"
           />
           {query && (
             <button
+              type="button"
               onClick={() => updateParam('q', null)}
               className="cursor-pointer absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-soft hover:text-ink p-0.5"
               aria-label="Clear search text"
+              data-testid="archive-search-clear"
             >
               <X size={14} aria-hidden="true" />
             </button>
           )}
-        </div>
+        </form>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Connected Moments Only Toggle */}
+          <button
+            onClick={() => updateParam('connected', connectedOnly ? null : 'true')}
+            data-testid="filter-connected-only"
+            className={`cursor-pointer inline-flex items-center gap-1.5 px-3 py-2 font-mono text-xs uppercase tracking-wider rounded-xs border transition-all ${
+              connectedOnly
+                ? 'bg-stamp-red text-paper border-stamp-red font-bold shadow-xs'
+                : 'bg-paper text-ink-soft border-rule hover:border-ink hover:text-ink'
+            }`}
+            title="Filter only receipts with connections"
+          >
+            <GitFork size={13} aria-hidden="true" />
+            <span>Connected Only</span>
+          </button>
+
+          {/* Sort Dropdown */}
           <div className="relative flex items-center">
             <ArrowUpDown size={14} className="absolute left-2.5 text-ink-soft pointer-events-none" />
             <select
+              id="archive-sort-select"
+              name="sort"
+              data-testid="archive-sort-select"
               value={selectedSort}
               onChange={e => updateParam('sort', e.target.value)}
               className="cursor-pointer pl-8 pr-6 py-2 bg-paper border border-rule rounded-xs font-mono text-xs text-ink focus:border-ink"
@@ -137,6 +168,7 @@ export const ArchiveFilters: React.FC = () => {
         <div className="flex flex-wrap gap-1.5">
           <button
             onClick={() => updateParam('type', null)}
+            data-testid="filter-type-all"
             className={`cursor-pointer px-2.5 py-1 font-mono text-xs uppercase tracking-wider rounded-xs border transition-all ${
               !selectedType
                 ? 'bg-ink text-paper border-ink font-bold'
@@ -154,6 +186,7 @@ export const ArchiveFilters: React.FC = () => {
               <button
                 key={type}
                 onClick={() => updateParam('type', isSelected ? null : type)}
+                data-testid={`filter-type-${type}`}
                 className={`cursor-pointer inline-flex items-center gap-1.5 px-2.5 py-1 font-mono text-xs uppercase tracking-wider rounded-xs border transition-all ${
                   isSelected
                     ? 'bg-ink text-paper border-ink font-bold shadow-xs'
@@ -178,6 +211,8 @@ export const ArchiveFilters: React.FC = () => {
           </label>
           <select
             id="archive-filter-month"
+            name="month"
+            data-testid="archive-filter-month"
             value={selectedMonth}
             onChange={e => updateParam('month', e.target.value || null)}
             className="cursor-pointer w-full py-1.5 px-2.5 bg-paper border border-rule rounded-xs font-mono text-xs text-ink"
@@ -198,6 +233,8 @@ export const ArchiveFilters: React.FC = () => {
           </label>
           <select
             id="archive-filter-theme"
+            name="theme"
+            data-testid="archive-filter-theme"
             value={selectedTheme}
             onChange={e => updateParam('theme', e.target.value || null)}
             className="cursor-pointer w-full py-1.5 px-2.5 bg-paper border border-rule rounded-xs font-mono text-xs text-ink capitalize"
@@ -218,6 +255,8 @@ export const ArchiveFilters: React.FC = () => {
           </label>
           <select
             id="archive-filter-city"
+            name="city"
+            data-testid="archive-filter-city"
             value={selectedCity}
             onChange={e => updateParam('city', e.target.value || null)}
             className="cursor-pointer w-full py-1.5 px-2.5 bg-paper border border-rule rounded-xs font-mono text-xs text-ink"
@@ -238,6 +277,7 @@ export const ArchiveFilters: React.FC = () => {
           <span>Filters applied</span>
           <button
             onClick={clearAllFilters}
+            data-testid="archive-clear-all-filters"
             className="cursor-pointer text-stamp-red font-bold hover:underline flex items-center gap-1"
           >
             <X size={12} aria-hidden="true" />

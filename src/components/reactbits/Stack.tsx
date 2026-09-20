@@ -44,6 +44,7 @@ export const Stack: React.FC<StackProps> = ({
           return (
             <div
               key={receipt.receipt_id}
+              data-testid={isTop ? 'stack-top-receipt' : `stack-receipt-${receipt.receipt_id}`}
               onClick={() => {
                 if (isTop) {
                   onSelectReceipt(receipt.receipt_id);
@@ -72,6 +73,7 @@ export const Stack: React.FC<StackProps> = ({
       <div className="mt-8 flex items-center gap-3">
         <button
           onClick={handleShuffle}
+          data-testid="stack-shuffle-btn"
           className="cursor-pointer inline-flex items-center gap-2 px-3.5 py-1.5 font-mono text-xs uppercase font-bold tracking-wider bg-paper border border-ink text-ink rounded-xs hover:bg-paper-deep transition-all shadow-xs"
           title="Cycle through receipts pile"
         >

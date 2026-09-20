@@ -69,7 +69,7 @@ export function buildChapters(receipts: Receipt[], moments: Moment[]): Chapter[]
       }
       if (r.type === 'photo') {
         photoCount++;
-        const device = (r as unknown as { device: string }).device || 'Unknown';
+        const device = r.device || 'Unknown';
         photoDevices[device] = (photoDevices[device] || 0) + 1;
       }
       if (r.type === 'note') {

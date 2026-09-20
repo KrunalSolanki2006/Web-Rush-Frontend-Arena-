@@ -236,8 +236,10 @@ export const ThreadsBoard: React.FC<ThreadsBoardProps> = ({
                 backgroundColor: isSelected ? '#B8321F' : meta.colorHex,
                 color: '#FFFFFF',
               }}
-              title={`${receipt.type.toUpperCase()}: ${receipt.title} (${receipt.dateLabel}) · Click to pull thread`}
-              aria-label={`${meta.label}: ${receipt.title}, ${receipt.dateLabel}`}
+              title={`${receipt.type.toUpperCase()}: #${receipt.receipt_id} ${receipt.title} (${receipt.dateLabel}) · Click to pull thread`}
+              aria-label={`Receipt #${receipt.receipt_id}, ${meta.label}: ${receipt.title}, ${receipt.dateLabel}`}
+              data-testid={`thread-node-${receipt.receipt_id}`}
+              data-receipt-id={receipt.receipt_id}
             >
               <Icon size={13} aria-hidden="true" />
             </button>

@@ -1,6 +1,6 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getDataset } from '../../lib/dataset';
+import { useDataset } from '../../hooks/useDataset';
 import { ChapterSection } from './ChapterSection';
 import { useReceipt } from '../../hooks/useReceipt';
 import { usePersistentState } from '../../hooks/usePersistentState';
@@ -10,7 +10,7 @@ import { ReceiptSlip } from '../../components/ui/ReceiptSlip';
 import { BookOpen, ArrowDown } from 'lucide-react';
 
 export const StoryPage: React.FC = () => {
-  const dataset = useMemo(() => getDataset(), []);
+  const { chapters, getReceipt } = useDataset();
   const navigate = useNavigate();
   const { openReceipt } = useReceipt();
   const [lastReadChapter, setLastReadChapter] = usePersistentState<number>('last_read_chapter', 1);
@@ -48,14 +48,17 @@ export const StoryPage: React.FC = () => {
   };
 
   const scrollToChapter = (month: number) => {
+    setActiveChapter(month);
+    setLastReadChapter(month);
     const el = document.getElementById(`chapter-${month}`);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'auto' });
+      window.history.replaceState(null, '', `#chapter-${month}`);
     }
   };
 
-  const startReceipt = dataset.receiptsMap.get(STORY_THESIS.bookends.startReceiptId);
-  const endReceipt = dataset.receiptsMap.get(STORY_THESIS.bookends.endReceiptId);
+  const startReceipt = getReceipt(STORY_THESIS.bookends.startReceiptId);
+  const endReceipt = getReceipt(STORY_THESIS.bookends.endReceiptId);
 
   return (
     <div className="space-y-8">
@@ -68,9 +71,10 @@ export const StoryPage: React.FC = () => {
       {/* Sticky Month Navigation Rail */}
       <div className="sticky top-16 z-30 bg-paper/95 backdrop-blur-xs py-2 border-b border-rule flex items-center justify-between gap-2 overflow-x-auto">
         <div className="flex items-center gap-1">
-          {dataset.chapters.map(ch => (
+          {chapters.map(ch => (
             <button
               key={ch.month}
+              data-testid={`chapter-nav-${ch.month}`}
               onClick={() => scrollToChapter(ch.month)}
               className={`cursor-pointer px-3 py-1 font-mono text-xs uppercase tracking-wider font-semibold rounded-xs transition-all whitespace-nowrap ${
                 activeChapter === ch.month
@@ -84,13 +88,13 @@ export const StoryPage: React.FC = () => {
         </div>
 
         <span className="hidden md:inline font-mono text-xs text-ink-soft whitespace-nowrap pl-4">
-          Persona: <strong>{dataset.chapters[activeChapter - 1]?.persona}</strong>
+          Persona: <strong>{chapters[activeChapter - 1]?.persona}</strong>
         </span>
       </div>
 
       {/* 9 Monthly Chapters */}
       <div className="space-y-8">
-        {dataset.chapters.map(chapter => (
+        {chapters.map(chapter => (
           <ChapterSection
             key={chapter.month}
             chapter={chapter}

@@ -62,6 +62,7 @@ export const Sheet: React.FC<SheetProps> = ({
     <dialog
       ref={dialogRef}
       onClick={handleBackdropClick}
+      data-testid="receipt-sheet-dialog"
       className="backdrop:bg-ink/60 backdrop:backdrop-blur-xs fixed inset-0 m-0 p-0 max-w-none max-h-none w-full h-full bg-transparent flex justify-end items-end md:items-stretch z-50 overflow-hidden"
       aria-labelledby="sheet-title"
     >
@@ -77,6 +78,7 @@ export const Sheet: React.FC<SheetProps> = ({
 
           <button
             onClick={onClose}
+            data-testid="sheet-close-btn"
             className="cursor-pointer p-1.5 rounded-sm hover:bg-paper-deep text-ink-soft hover:text-ink transition-colors"
             aria-label="Close receipt details"
           >

@@ -4,6 +4,7 @@ import { ReceiptSlip } from '../../components/ui/ReceiptSlip';
 import { RECEIPT_TYPE_META } from '../receipts/receiptTypeMeta';
 import { Clock, ArrowDown, X, Sparkles } from 'lucide-react';
 import { humanizeDuration } from '../../lib/time';
+import { relationshipResolver } from '../../services';
 
 interface ThreadTrailProps {
   moment: Moment | null;
@@ -43,7 +44,7 @@ export const ThreadTrail: React.FC<ThreadTrailProps> = ({
   };
 
   return (
-    <div className="bg-slip border border-rule rounded-sm p-4 md:p-6 shadow-sm space-y-6">
+    <div className="bg-slip border border-rule rounded-sm p-4 md:p-6 shadow-sm space-y-6" data-testid="active-thread-trail">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 pb-4 border-b border-dashed border-rule">
         <div>
@@ -87,6 +88,7 @@ export const ThreadTrail: React.FC<ThreadTrailProps> = ({
 
         <button
           onClick={onClear}
+          data-testid="clear-trail-btn"
           className="cursor-pointer p-1.5 rounded-xs hover:bg-paper-deep text-ink-soft hover:text-ink transition-colors"
           title="Clear thread selection (Esc)"
           aria-label="Clear thread selection"
@@ -100,19 +102,31 @@ export const ThreadTrail: React.FC<ThreadTrailProps> = ({
         {receipts.map((receipt, index) => {
           const nextReceipt = receipts[index + 1];
           const edge = nextReceipt ? getEdgeBetween(receipt.receipt_id, nextReceipt.receipt_id) : undefined;
+          const causal = relationshipResolver.getCausalInsight(receipt.receipt_id);
 
           return (
-            <div key={receipt.receipt_id} className="space-y-4">
-              <ReceiptSlip
-                receipt={receipt}
-                variant="compact"
-                onClick={() => onSelectReceipt(receipt.receipt_id)}
-                className="hover:scale-[1.005]"
-              />
+            <div key={receipt.receipt_id} className="space-y-4" data-testid={`thread-step-${receipt.receipt_id}`}>
+              <div className="space-y-1">
+                {causal.role !== 'Independent' && (
+                  <div className="flex items-center justify-between px-1 text-[10px] font-mono">
+                    <span className="uppercase font-bold text-stamp-red flex items-center gap-1">
+                      <Sparkles size={10} aria-hidden="true" />
+                      <span>{causal.role}</span>
+                    </span>
+                    <span className="text-ink-soft/70">Step {index + 1} of {receipts.length}</span>
+                  </div>
+                )}
+                <ReceiptSlip
+                  receipt={receipt}
+                  variant="compact"
+                  onClick={() => onSelectReceipt(receipt.receipt_id)}
+                  className="hover:scale-[1.005]"
+                />
+              </div>
 
               {/* Connective Link Between Slips */}
               {nextReceipt && (
-                <div className="py-1 px-4 my-1 flex items-center justify-center">
+                <div className="py-1 px-4 my-1 flex items-center justify-center" data-testid={`thread-link-${receipt.receipt_id}-${nextReceipt.receipt_id}`}>
                   <div className="flex flex-col items-center text-center max-w-md w-full">
                     <div className="w-0.5 h-3 bg-rule" />
                     <div
