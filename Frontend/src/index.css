@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts via Fontsource */
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+@theme {
+  --color-paper: #F5EFE3;
+  --color-paper-deep: #ECE3D0;
+  --color-slip: #FBF8F1;
+  --color-ink: #1C1B18;
+  --color-ink-soft: #55514A;
+  --color-rule: #CFC5AE;
+  --color-stamp-red: #B8321F;
+  --color-highlighter: #F3D34A;
+
+  --color-type-music: #4A4FA6;
+  --color-type-movie: #7A3E8E;
+  --color-type-place: #2E6B4F;
+  --color-type-purchase: #96600F;
+  --color-type-photo: #0F6E7A;
+  --color-type-message: #A63D6B;
+  --color-type-search: #4D5A6B;
+  --color-type-event: #2D5FA8;
+  --color-type-note: #2B2A27;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+}
+
+:root {
+  color-scheme: light;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* Accessible focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* Perforated bottom edge for thermal receipts */
+.perforated-edge {
+  position: relative;
+}
+
+.perforated-edge::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-image: radial-gradient(circle at 4px 6px, transparent 4px, var(--color-slip) 4.5px);
+  background-size: 8px 6px;
+  background-repeat: repeat-x;
+}
+
+.perforated-edge-paper::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background-image: radial-gradient(circle at 4px 6px, transparent 4px, var(--color-paper-deep) 4.5px);
+  background-size: 8px 6px;
+  background-repeat: repeat-x;
+}
+
+/* Film Sprocket Holes */
+.film-sprocket {
+  background-image: 
+    radial-gradient(circle at 6px 12px, transparent 3px, #1C1B18 3.5px),
+    radial-gradient(circle at 6px calc(100% - 12px), transparent 3px, #1C1B18 3.5px);
+  background-size: 16px 100%;
+  background-repeat: repeat-x;
+}
+
+/* Custom Scrollbar for horizontal containers */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-paper-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-rule);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-soft);
+}
+
+/* Print Stylesheet for Physical Receipt Export */
+@media print {
+  nav,
+  footer,
+  .no-print,
+  button,
+  .fixed,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #1c1b18 !important;
+    font-size: 11pt;
+  }
+
+  .perforated-edge::after,
+  .perforated-edge-paper::after {
+    display: none !important;
+  }
+
+  .print-receipt,
+  .receipt-slip {
+    box-shadow: none !important;
+    border: 1px solid #1c1b18 !important;
+    background: #ffffff !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

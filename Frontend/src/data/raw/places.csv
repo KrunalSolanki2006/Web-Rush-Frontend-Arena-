@@ -1,0 +1,9 @@
+place_id,receipt_id,name,type,city,latitude,longitude,tags
+P001,R002,Blue Tokai Bandra,Cafe,"Bandra, Mumbai",19.0614,72.8292,"coffee,night"
+P002,R009,Marine Drive,Landmark,South Mumbai,18.9432,72.8236,"sea,sunset"
+P003,R017,Lake Pichola,Landmark,Udaipur,24.5762,73.6836,"lake,travel"
+P004,R023,Jheel's Ginger Coffee Bar,Cafe,Udaipur,24.5817,73.683,"coffee,travel"
+P005,R031,Sanjay Gandhi National Park,Park,Mumbai,19.2147,72.9106,"nature,photography"
+P006,R037,Pawna Lake,Lake,Lonavala,18.6634,73.4934,"nature,travel"
+P007,R043,Sion Fort,Heritage,Mumbai,19.0433,72.864,"heritage,photography"
+P008,R048,Kala Ghoda,Arts District,Mumbai,18.9272,72.8312,"arts,film"

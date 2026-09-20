@@ -1,0 +1,3 @@
+message_id,receipt_id,timestamp,sender,text,type,tags
+MSG001,R021,2025-03-16 20:15,Aarav,Send me that lake photo!,friend,"udaipur,photo"
+MSG002,R041,2025-07-11 18:00,Aarav,Road trip this weekend?,friend,"travel,friend"

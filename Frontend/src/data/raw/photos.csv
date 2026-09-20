@@ -1,0 +1,10 @@
+photo_id,receipt_id,timestamp,title,device,location,tags
+PH001,R003,2025-01-04 22:02,Rain on Carter Road,Phone Camera,"Carter Road, Mumbai","rain,night"
+PH002,R010,2025-02-02 20:42,Orange horizon,Phone Camera,"Marine Drive, Mumbai","sunset,sea"
+PH003,R018,2025-03-15 18:30,Lake Pichola at dusk,Phone Camera,Udaipur,"udaipur,dusk"
+PH004,R024,2025-03-17 10:25,Notebook and coffee,Phone Camera,Udaipur,"udaipur,cafe,writing"
+PH005,R028,2025-04-20 17:25,Family table,Phone Camera,Mumbai,"family,celebration"
+PH006,R032,2025-05-10 06:45,Morning forest trail,Mirrorless Camera,Sanjay Gandhi National Park,"photography,nature"
+PH007,R038,2025-06-07 09:45,Pawna morning,Mirrorless Camera,"Pawna Lake, Lonavala","lonavala,nature"
+PH008,R044,2025-07-12 08:00,Monsoon walls,Mirrorless Camera,"Sion Fort, Mumbai","photography,monsoon"
+PH009,R049,2025-08-24 17:25,Kala Ghoda shadows,35mm Film Camera,"Kala Ghoda, Mumbai","film,arts"

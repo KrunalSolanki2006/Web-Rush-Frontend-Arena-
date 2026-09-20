@@ -1,0 +1,9 @@
+event_id,receipt_id,timestamp,name,organizer,location,category,tags
+E001,R007,2025-01-18 18:10,Marine Drive 5K,Community Run,Mumbai,fitness,"running,community"
+E002,R011,2025-02-14 19:15,Indie Film Night,Film Society,Mumbai,movies,"film,night"
+E003,R016,2025-03-15 07:30,Train to Udaipur,IRCTC,Mumbai to Udaipur,travel,"udaipur,trip"
+E004,R027,2025-04-20 17:00,Cousin's engagement,Family,Mumbai,family,"family,celebration"
+E005,R036,2025-06-07 06:40,Weekend road trip,Personal,Mumbai → Lonavala,travel,"roadtrip,lonavala"
+E006,R042,2025-07-12 07:00,Monsoon photo walk,Photography Club,Mumbai,photography,"photography,monsoon"
+E007,R047,2025-08-24 16:20,Film photography meetup,Photo Club,Mumbai,photography,"film,community"
+E008,R054,2025-09-19 08:00,30-day photo journal,Personal Challenge,Mumbai,photography,"photo,journal,challenge"

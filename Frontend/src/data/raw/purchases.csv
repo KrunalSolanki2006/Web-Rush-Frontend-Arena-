@@ -1,0 +1,7 @@
+purchase_id,receipt_id,timestamp,merchant,item,category,amount,currency,city
+PU001,R004,2025-01-05 10:15,Nimbus Sports,Running Shoes,fitness,3499,INR,Mumbai
+PU002,R013,2025-02-14 22:05,Crossword,Paperback travel journal,books,599,INR,Mumbai
+PU003,R020,2025-03-16 11:30,Local Market,Handmade notebook,souvenir,320,INR,Udaipur
+PU004,R030,2025-05-09 13:05,Pixel Pro Store,Mirrorless Camera,photography,58900,INR,Mumbai
+PU005,R039,2025-06-07 10:05,Outdoor Store,Camping coffee kit,travel,1290,INR,Lonavala
+PU006,R046,2025-08-19 11:10,Vintage Camera Shop,35mm Film Camera,photography,8200,INR,Mumbai
