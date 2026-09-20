@@ -6,7 +6,10 @@ import { DecryptedText } from '../../components/reactbits/DecryptedText';
 import { useReceipt } from '../../hooks/useReceipt';
 import { usePersistentState } from '../../hooks/usePersistentState';
 import { Barcode } from '../../components/ui/Barcode';
-import { BookOpen, GitFork, Archive, ArrowRight, Clock, Printer } from 'lucide-react';
+import {
+  BookOpen, GitFork, Archive, ArrowRight, Clock, Printer,
+  Map, BarChart3, CheckCircle2, HelpCircle, Info,
+} from 'lucide-react';
 
 // Lazy load below-the-fold interactive stack to avoid loading ReceiptSlip on initial critical path
 const Stack = lazy(() =>
@@ -204,6 +207,141 @@ export const HomePage: React.FC = () => {
             onSelectReceipt={openReceipt}
           />
         </Suspense>
+      </section>
+
+      {/* Feature Navigation Grid */}
+      <section aria-labelledby="features-heading" className="space-y-4">
+        <div className="text-center">
+          <span className="font-mono text-xs uppercase font-bold tracking-widest text-stamp-red">
+            EXPLORE ALL VIEWS
+          </span>
+          <h2 id="features-heading" className="font-display text-2xl md:text-3xl font-bold text-ink mt-1">
+            Six Ways to Read Your Life
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="feature-grid">
+          {[
+            {
+              path: '/story',
+              icon: BookOpen,
+              label: 'Story Mode',
+              badge: '9 CHAPTERS',
+              desc: 'Nine monthly chapters with persona stamps, moment chains, and a final thesis epilogue.',
+              testId: 'feature-story',
+            },
+            {
+              path: '/threads',
+              icon: GitFork,
+              label: 'Threads & Connections',
+              badge: '43 EDGES',
+              desc: 'SVG relationship graph across 9 type lanes — trace confirmed and inferred causal links.',
+              testId: 'feature-threads',
+            },
+            {
+              path: '/map',
+              icon: Map,
+              label: 'Life Map',
+              badge: '8 PLACES',
+              desc: 'SVG equirectangular projection of 8 geolocated places across Mumbai, Lonavala, and Udaipur.',
+              testId: 'feature-map',
+            },
+            {
+              path: '/patterns',
+              icon: BarChart3,
+              label: 'Patterns & Discoveries',
+              badge: '5 INSIGHTS',
+              desc: 'Computed behavioral insights: theme matrix, morning shift, intent lags, spending tape, inner voice.',
+              testId: 'feature-patterns',
+            },
+            {
+              path: '/archive',
+              icon: Archive,
+              label: 'The Archive',
+              badge: '55 RECEIPTS',
+              desc: 'Real-time multi-facet search and filter across all 55 receipts with slips and table views.',
+              testId: 'feature-archive',
+            },
+            {
+              path: '/method',
+              icon: Info,
+              label: 'Method & Provenance',
+              badge: 'TRANSPARENCY',
+              desc: 'How confirmed and inferred connections are distinguished, with data traps handled explicitly.',
+              testId: 'feature-method',
+            },
+          ].map(({ path, icon: Icon, label, badge, desc, testId }) => (
+            <Link
+              key={path}
+              to={path}
+              data-testid={testId}
+              className="group bg-slip border border-rule p-5 rounded-sm shadow-xs hover:shadow-md hover:border-ink-soft transition-all space-y-3"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xs bg-paper-deep flex items-center justify-center text-ink group-hover:bg-ink group-hover:text-paper transition-colors">
+                    <Icon size={18} aria-hidden="true" />
+                  </div>
+                  <span className="font-display font-bold text-base text-ink">{label}</span>
+                </div>
+                <ArrowRight size={15} className="text-ink-soft group-hover:text-ink group-hover:translate-x-0.5 transition-all" aria-hidden="true" />
+              </div>
+              <div className="font-mono text-[10px] uppercase tracking-widest text-stamp-red font-bold">
+                {badge}
+              </div>
+              <p className="font-sans text-xs text-ink-soft leading-relaxed">
+                {desc}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Dataset Provenance Strip */}
+      <section
+        aria-labelledby="dataset-heading"
+        className="bg-slip border-2 border-dashed border-rule rounded-sm p-6 md:p-8 space-y-4"
+        data-testid="dataset-provenance"
+      >
+        <div className="text-center">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">
+            DATASET GROUND TRUTH · §2.3 VERIFIED
+          </span>
+          <h2 id="dataset-heading" className="font-display text-lg font-bold text-ink mt-1">
+            By the Numbers
+          </h2>
+        </div>
+
+        <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono">
+          {[
+            { label: 'Life Receipts', value: `${receipts.length}`, unit: 'total' },
+            { label: 'Confirmed Links', value: `${confirmedCount}`, unit: 'causal edges' },
+            { label: 'Inferred Links', value: `${inferredCount}`, unit: 'thematic edges' },
+            { label: 'Geolocated Places', value: `${places.length}`, unit: 'with lat/lon' },
+            { label: 'Monthly Chapters', value: `${chapters.length}`, unit: 'Jan–Sep 2025' },
+            { label: 'Total Purchases', value: `₹${purchasesTotal.toLocaleString('en-IN')}`, unit: 'documented spend' },
+            { label: 'Receipt Types', value: '9', unit: 'categories' },
+            { label: 'Backend Servers', value: '0', unit: 'frontend only' },
+          ].map(({ label, value, unit }) => (
+            <div key={label} className="text-center space-y-0.5">
+              <dt className="text-[10px] uppercase tracking-wider text-ink-soft">{label}</dt>
+              <dd className="text-xl font-bold text-ink">{value}</dd>
+              <div className="text-[10px] text-ink-soft/70">{unit}</div>
+            </div>
+          ))}
+        </dl>
+
+        <div className="pt-2 border-t border-dashed border-rule flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs text-ink-soft">
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 size={13} className="text-green-700" aria-hidden="true" />
+            <span>29 confirmed causal connections (hard-coded in CSV)</span>
+          </span>
+          <span className="hidden sm:block text-rule">·</span>
+          <span className="flex items-center gap-1.5">
+            <HelpCircle size={13} className="text-ink-soft" aria-hidden="true" />
+            <span>14 inferred thematic connections (curated to connect orphans)</span>
+          </span>
+        </div>
       </section>
     </div>
   );

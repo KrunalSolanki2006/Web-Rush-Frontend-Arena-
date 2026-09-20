@@ -1,0 +1,81 @@
+{
+  "project": "Itemized — Your Life, In Receipts",
+  "tagline": "Nine months. Fifty-five receipts. One story.",
+  "version": "1.0.0",
+  "built_for": "WebRush Frontend Arena 2025",
+  "problem_statement": "Your Life, In Receipts",
+  "dataset": {
+    "total_receipts": 55,
+    "date_range": {
+      "start": "2025-01-04",
+      "end": "2025-09-19",
+      "months": 9
+    },
+    "receipt_types": [
+      { "type": "music", "count": 7 },
+      { "type": "movie", "count": 6 },
+      { "type": "place", "count": 8 },
+      { "type": "purchase", "count": 7 },
+      { "type": "photo", "count": 8 },
+      { "type": "message", "count": 6 },
+      { "type": "search", "count": 7 },
+      { "type": "event", "count": 4 },
+      { "type": "note", "count": 2 }
+    ],
+    "connections": {
+      "confirmed": 29,
+      "inferred": 14,
+      "total": 43
+    },
+    "places": {
+      "count": 8,
+      "cities": ["Mumbai", "Lonavala", "Udaipur"]
+    },
+    "purchases": {
+      "total_inr": 72808,
+      "currency": "INR"
+    },
+    "chapters": {
+      "count": 9,
+      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September"]
+    },
+    "connected_moments": 11
+  },
+  "features": [
+    "Story Mode — 9 monthly chapters with persona stamps and moment chains",
+    "Threads Board — interactive SVG relationship graph with 43 edges",
+    "Life Map — SVG equirectangular projection with 8 geolocated places",
+    "Patterns — 5 computed insight blocks (theme matrix, morning shift, intent lags, spending tape, inner voice)",
+    "Archive — real-time multi-facet search and filter across all 55 receipts",
+    "Receipt Drawer — global deep-link overlay via ?r=RXXX URL scheme",
+    "Causal Intelligence — Trigger/Catalyst/Turning Point/Reflection/Anchor classification",
+    "Keyboard Navigation — ? help modal + g+h/s/t/m/p/a/x shortcuts"
+  ],
+  "technical": {
+    "framework": "React 19",
+    "language": "TypeScript 5.7",
+    "bundler": "Vite 8",
+    "styling": "Tailwind CSS v4",
+    "icons": "Lucide React",
+    "animation": "motion/react",
+    "architecture": "Feature-Slice Design with Service-Repository pattern",
+    "entry_chunk_kb": 12.85,
+    "entry_chunk_gzip_kb": 4.34,
+    "total_js_kb": 333.6,
+    "total_js_gzip_kb": 108.5,
+    "css_kb": 49.49,
+    "css_gzip_kb": 8.87,
+    "test_count": 38,
+    "test_suites": 7,
+    "accessibility": "WCAG 2.1 AA"
+  },
+  "routes": [
+    { "path": "/", "name": "Home", "description": "Cover receipt, animated stats, interactive card stack" },
+    { "path": "/story", "name": "Story Mode", "description": "9 monthly chapters, sticky nav rail, moment chains" },
+    { "path": "/threads", "name": "Threads & Connections", "description": "SVG relationship board with 9 type lanes" },
+    { "path": "/map", "name": "Life Map", "description": "SVG equirectangular projection of 8 geolocated places" },
+    { "path": "/patterns", "name": "Patterns & Discoveries", "description": "5 computed behavioral insight blocks" },
+    { "path": "/archive", "name": "The Archive", "description": "Multi-facet search and filter across all 55 receipts" },
+    { "path": "/method", "name": "Method", "description": "Dataset provenance, confirmed vs inferred logic, limitations" }
+  ]
+}
